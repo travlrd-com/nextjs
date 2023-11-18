@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "supabase:sync": "npx supabase gen types typescript --project-id [[PROJECT_ID]] > lib/database.types.ts",
+    "stripe:listen": "stripe listen --forward-to http://localhost:3000/api/stripe/webhook"
   },
   "dependencies": {
     "react": "^18",

@@ -12,4 +12,8 @@ export const env = z.object({
 
   STRIPE_API_KEY: z.string().min(1),
   STRIPE_WEBHOOK_SIGNING_SECRET: z.string().min(1),
+
+  GA4_PROPERTY_ID: z.string().min(1),
+  GA_CLIENT_EMAIL: z.string().min(1),
+  GA_PRIVATE_KEY: z.string().min(1),
 }).parse(process.env);

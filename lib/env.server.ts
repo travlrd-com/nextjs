@@ -16,4 +16,6 @@ export const env = z.object({
   GA4_PROPERTY_ID: z.string().min(1),
   GA_CLIENT_EMAIL: z.string().min(1),
   GA_PRIVATE_KEY: z.string().min(1),
+
+  GA_MEASUREMENT_ID: z.string().min(1),
 }).parse(process.env);

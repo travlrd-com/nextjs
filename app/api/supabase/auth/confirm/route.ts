@@ -1,5 +1,5 @@
 import { env } from '@/lib/env.server';
-import { createSupabaseRouteHandlerClient } from '@/lib/supabase.server';
+import { createSupabaseForRouteHandler } from '@/lib/supabase.server';
 import { type EmailOtpType } from '@supabase/supabase-js';
 import { NextResponse } from 'next/server';
 
@@ -15,7 +15,7 @@ export async function GET(request: Request) {
     return NextResponse.redirect('/supabase/auth/confirm/link-malformed');
   }
 
-  const supabase = createSupabaseRouteHandlerClient();
+  const supabase = createSupabaseForRouteHandler();
 
   const { error } = await supabase.auth.verifyOtp({
     type,

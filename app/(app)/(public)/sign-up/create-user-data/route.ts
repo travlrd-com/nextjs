@@ -1,5 +1,5 @@
 import http from "@/lib/http-status-codes";
-import { supabaseServiceRoleClient } from "@/lib/supabase.server";
+import { supabaseWithServiceRoleForServer } from "@/lib/supabase.server";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 
@@ -17,7 +17,7 @@ export async function POST(request: Request) {
     if (zodResult.success === false) return NextResponse.json({ error: "Invalid form data." }, { status: http.UNPROCESSABLE_ENTITY });
     const req = zodResult.data;
 
-    await supabaseServiceRoleClient.from("users").insert({
+    await supabaseWithServiceRoleForServer.from("users").insert({
       user_id: req.user_id,
       full_name: req.full_name,
     }).throwOnError();

@@ -6,11 +6,11 @@ import { env } from "./env.server";
 
 
 
-export const supabaseServiceRoleClient = createClient<Database>(env.NEXT_PUBLIC_SUPABASE_URL, env.SUPABASE_SERVICE_ROLE_KEY);
+export const supabaseWithServiceRoleForServer = createClient<Database>(env.NEXT_PUBLIC_SUPABASE_URL, env.SUPABASE_SERVICE_ROLE_KEY);
 
 
 
-export function createSupabaseServerComponentClient() {
+export function createSupabaseForServerComponent() {
   const cookieStore = cookies();
 
   const supabase = createServerClient<Database>(
@@ -34,7 +34,7 @@ export function createSupabaseServerComponentClient() {
 
 
 
-export function createSupabaseRouteHandlerClient() {
+export function createSupabaseForRouteHandler() {
   const cookieStore = cookies();
 
   const supabase = createServerClient<Database>(
@@ -64,7 +64,7 @@ export function createSupabaseRouteHandlerClient() {
 
 
 
-export function createSupabaseServerActionClient() {
+export function createSupabaseForServerAction() {
   const cookieStore = cookies();
 
   const supabase = createServerClient<Database>(

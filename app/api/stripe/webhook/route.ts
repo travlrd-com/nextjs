@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { createStripeClient } from "../../../../lib/stripe.server";
 import http from "@/lib/http-status-codes";
-import { supabaseServiceRoleClient } from "@/lib/supabase.server";
+import { supabaseWithServiceRoleForServer } from "@/lib/supabase.server";
 import { env } from "@/lib/env.server";
 
 
@@ -35,7 +35,7 @@ export async function POST(req: Request) {
           }),
         }).parse(event.data.object);
 
-        await supabaseServiceRoleClient
+        await supabaseWithServiceRoleForServer
           .from("stripe_customers")
           .insert([{
             user_id: customerCreated.metadata.user_id,
@@ -51,7 +51,7 @@ export async function POST(req: Request) {
           id: z.string(),
         }).parse(event.data.object);
 
-        await supabaseServiceRoleClient
+        await supabaseWithServiceRoleForServer
           .from("stripe_customers")
           .delete()
           .eq("stripe_Id", customerDeleted.id)
@@ -82,7 +82,7 @@ export async function POST(req: Request) {
           }),
         }).parse(event.data.object);
 
-        await supabaseServiceRoleClient
+        await supabaseWithServiceRoleForServer
           .from("stripe_subscriptions")
           .insert([{
             stripe_id: customerSubscriptionCreated.id,
@@ -104,7 +104,7 @@ export async function POST(req: Request) {
           id: z.string(),
         }).parse(event.data.object);
 
-        await supabaseServiceRoleClient
+        await supabaseWithServiceRoleForServer
           .from("stripe_subscriptions")
           .update({
             deleted_at: new Date().toISOString(),
@@ -139,7 +139,7 @@ export async function POST(req: Request) {
           }),
         }).parse(event.data.object);
 
-        await supabaseServiceRoleClient
+        await supabaseWithServiceRoleForServer
           .from("stripe_subscriptions")
           .update({
             stripe_customer_id: customerSubscriptionUpdated.customer,
@@ -184,7 +184,7 @@ export async function POST(req: Request) {
 
         const lineItem = invoicePaymentSucceeded.lines.data[0];
 
-        await supabaseServiceRoleClient
+        await supabaseWithServiceRoleForServer
           .from("stripe_invoices")
           .insert([{
             stripe_id: invoicePaymentSucceeded.id,

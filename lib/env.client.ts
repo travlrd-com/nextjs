@@ -9,5 +9,5 @@ export const env = {
   NEXT_PUBLIC_SUPABASE_URL: z.string().min(1).parse(process.env.NEXT_PUBLIC_SUPABASE_URL),
   NEXT_PUBLIC_SUPABASE_ANON_KEY: z.string().min(1).parse(process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY),
 
-  GA_MEASUREMENT_ID: z.string().min(1).parse(process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID),
+  NEXT_PUBLIC_GA_MEASUREMENT_ID: z.string().min(1).parse(process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID),
 };

@@ -1,5 +1,7 @@
+import { env } from '@/lib/env.server';
 import { createSupabaseForRouteHandler } from '@/lib/supabase.server';
 import { NextResponse } from 'next/server';
+
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -9,7 +11,7 @@ export async function GET(request: Request) {
   if (!code) {
     console.error('Missing code');
     // return the user to an error page with instructions
-    return NextResponse.redirect('/auth/auth-code-error');
+    return NextResponse.redirect(`${env.NEXT_PUBLIC_ORIGIN}/api/supabase/auth/callback/link-malformed/`);
   }
 
   const supabase = createSupabaseForRouteHandler();
@@ -19,7 +21,7 @@ export async function GET(request: Request) {
   if (error) {
     console.error(error);
     // return the user to an error page with instructions
-    return NextResponse.redirect('/auth/auth-code-error');
+    return NextResponse.redirect(`${env.NEXT_PUBLIC_ORIGIN}/api/supabase/auth/callback/link-did-not-work/`);
   }
 
   return NextResponse.redirect(next);

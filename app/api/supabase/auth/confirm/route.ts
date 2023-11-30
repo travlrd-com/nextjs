@@ -12,7 +12,7 @@ export async function GET(request: Request) {
   if (!(token_hash && type)) {
     console.error('Missing token_hash or type');
     // return the user to an error page with some instructions
-    return NextResponse.redirect('/supabase/auth/confirm/link-malformed');
+    return NextResponse.redirect(`${env.NEXT_PUBLIC_ORIGIN}/api/supabase/auth/confirm/link-malformed/`);
   }
 
   const supabase = createSupabaseForRouteHandler();

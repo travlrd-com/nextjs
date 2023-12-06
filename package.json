@@ -8,9 +8,9 @@
     "start": "next start",
     "lint": "next lint",
     "stripe:listen": "stripe listen --forward-to http://localhost:3000/api/stripe/webhook",
-    "supabase:ts": "./scripts/supabase-ts.sh",
-    "supabase:sync-staging-to-production": "./scripts/supabase-sync-schema.sh staging production",
-    "supabase:sync-production-to-staging": "./scripts/supabase-sync-schema.sh production staging"
+    "supabase:gen-types": "node ./scripts/supabase-gen-types.js",
+    "supabase:sync-staging-to-production": "./scripts/supabase-sync-schema.js staging production",
+    "supabase:sync-production-to-staging": "./scripts/supabase-sync-schema.js production staging"
   },
   "dependencies": {
     "@google-analytics/data": "^4.1.0",

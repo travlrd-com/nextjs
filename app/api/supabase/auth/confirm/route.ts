@@ -17,15 +17,41 @@ export async function GET(request: Request) {
 
   const supabase = createSupabaseForRouteHandler();
 
-  const result = await supabase.auth.verifyOtp({
-    type,
-    token_hash,
-  });
 
-  if (result.error) {
-    console.error(result.error);
-    // return the user to an error page with some instructions
-    return NextResponse.redirect(`${env.NEXT_PUBLIC_ORIGIN}/api/supabase/auth/confirm/link-did-not-work`);
+  let userSessionData; {
+    const response = await supabase.auth.verifyOtp({ type, token_hash });
+
+    if (response.error) {
+      console.error(response.error.message);
+      // return the user to an error page with instructions
+      return NextResponse.redirect(`${env.NEXT_PUBLIC_ORIGIN}/api/supabase/auth/confirm/link-did-not-work`);
+    }
+
+    userSessionData = response.data;
+  }
+
+  {
+    if (!userSessionData.user) {
+      console.error('Missing user data');
+      // return the user to an error page with instructions
+      return NextResponse.redirect(`${env.NEXT_PUBLIC_ORIGIN}/api/supabase/auth/confirm/couldnt-create-user-metadata`);
+    }
+
+    const result = await supabase
+      .from('users')
+      .insert({
+        user_id: userSessionData.user.id,
+        email: userSessionData.user.email,
+        full_name: userSessionData.user.user_metadata.full_name,
+        // profile_picture_src: userSessionData.user.user_metadata.profile_picture_src,
+      });
+
+    if (result.error) {
+      console.error('Error inserting user into database');
+      console.error(result.error);
+      // return the user to an error page with instructions
+      return NextResponse.redirect(`${env.NEXT_PUBLIC_ORIGIN}/api/supabase/auth/confirm/couldnt-create-user-metadata`);
+    }
   }
 
   return NextResponse.redirect(`${env.NEXT_PUBLIC_ORIGIN}${next}`);

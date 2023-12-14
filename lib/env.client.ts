@@ -1,3 +1,5 @@
+"use client";
+
 import { z } from "zod";
 
 // On the client Next.js exposes the env variables starting with NEXT_

@@ -1,21 +1,33 @@
+import { env } from "@/lib/env.client";
 import { supabaseForClientComponent } from "@/lib/supabase.client";
 import * as Supabase from "@supabase/supabase-js";
-import { env } from "./env.server";
 
 
-export async function authenticateUsingGoogle() {
+export async function authenticateUsingGoogle(): Promise<never> {
+  const redirectTo = `${env.NEXT_PUBLIC_ORIGIN}/api/supabase/auth/callback`;
+
+  console.error(``
+    + `Add this redirect url to the Supabase settings.\n`
+    + "Redirect URL:"
+    + redirectTo + "\n"
+    + "Supabase Settings:"
+    + `https://supabase.com/dashboard/project/_/auth/url-configuration`
+    + "After that, remove this error message from the code."
+  );
+  alert("Check the console log to fix this issue.");
+  throw new Error("Redirect URL not configured on Supabase.");
+
   return await supabaseForClientComponent.auth.signInWithOAuth({
     provider: "google",
     options: {
-      // The redirectTo url has to be added to the Supabase settings:
-      // https://supabase.com/dashboard/project/_/auth/url-configuration
-      redirectTo: `${env.NEXT_PUBLIC_ORIGIN}/api/supabase/auth/callback`,
+      redirectTo,
       queryParams: {
         access_type: 'offline',
         prompt: 'consent',
       },
+      // scopes: "https://www.googleapis.com/auth/drive.file"
     },
-  });
+  }) as unknown as never;
 }
 
 

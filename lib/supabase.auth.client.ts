@@ -7,6 +7,8 @@ export async function authenticateUsingGoogle() {
   return await supabaseForClientComponent.auth.signInWithOAuth({
     provider: "google",
     options: {
+      // The redirectTo url has to be added to the Supabase settings:
+      // https://supabase.com/dashboard/project/_/auth/url-configuration
       redirectTo: `${env.NEXT_PUBLIC_ORIGIN}/api/supabase/auth/callback`,
       queryParams: {
         access_type: 'offline',

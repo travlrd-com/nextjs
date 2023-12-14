@@ -16,13 +16,13 @@ export async function GET(request: Request) {
 
   const supabase = createSupabaseForRouteHandler();
 
-  const { error } = await supabase.auth.exchangeCodeForSession(code);
+  const result = await supabase.auth.exchangeCodeForSession(code);
 
-  if (error) {
-    console.error(error);
+  if (result.error) {
+    console.error(result.error.message);
     // return the user to an error page with instructions
     return NextResponse.redirect(`${env.NEXT_PUBLIC_ORIGIN}/api/supabase/auth/callback/link-did-not-work/`);
   }
 
-  return NextResponse.redirect(next);
+  return NextResponse.redirect(`${env.NEXT_PUBLIC_ORIGIN}${next}`);
 }

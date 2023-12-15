@@ -17,7 +17,6 @@ export async function GET(request: Request) {
 
   const supabase = createSupabaseForRouteHandler();
 
-
   let userSessionData; {
     const response = await supabase.auth.verifyOtp({ type, token_hash });
 
@@ -30,7 +29,7 @@ export async function GET(request: Request) {
     userSessionData = response.data;
   }
 
-  {
+  update_user_data: {
     if (!userSessionData.user) {
       console.error('Missing user data');
       // return the user to an error page with instructions
@@ -43,7 +42,6 @@ export async function GET(request: Request) {
         user_id: userSessionData.user.id,
         email: userSessionData.user.email,
         full_name: userSessionData.user.user_metadata.full_name,
-        // profile_picture_src: userSessionData.user.user_metadata.profile_picture_src,
       });
 
     if (result.error) {
@@ -52,6 +50,10 @@ export async function GET(request: Request) {
       // return the user to an error page with instructions
       return NextResponse.redirect(`${env.NEXT_PUBLIC_ORIGIN}/api/supabase/auth/confirm/couldnt-create-user-metadata`);
     }
+  }
+
+  if (type === "email_change") {
+    return NextResponse.redirect(`${env.NEXT_PUBLIC_ORIGIN}/profile`);
   }
 
   return NextResponse.redirect(`${env.NEXT_PUBLIC_ORIGIN}${next}`);

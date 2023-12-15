@@ -4,7 +4,7 @@ import { env } from './lib/env.server';
 
 export async function middleware(request: NextRequest) {
   assert_origin: {
-    const origin = new URL(request.headers.get("referer") ?? "").origin;
+    const origin = new URL(request.headers.get("referer") ?? env.NEXT_PUBLIC_ORIGIN).origin;
     if (origin !== env.NEXT_PUBLIC_ORIGIN) {
       throw new Error(`You are trying to access the application from ${origin}, but the origin defined in the NEXT_PUBLIC_ORIGIN environment variable is ${env.NEXT_PUBLIC_ORIGIN}.\nYou must access the application from ${env.NEXT_PUBLIC_ORIGIN}, because some integrations will not work otherwise.`);
     }

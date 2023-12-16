@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 export const env = z.object({
-  NODE_ENV: z.string().min(1),
+  NODE_ENV: z.string().optional(),
 
   NEXT_PUBLIC_ORIGIN: z.string().min(1),
 

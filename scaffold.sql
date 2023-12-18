@@ -1,3 +1,12 @@
+create view
+  public.auth_users as
+select
+  users.id,
+  users.email,
+  users.created_at
+from
+  auth.users;
+
 create table
   public.admins (
     user_id uuid not null,

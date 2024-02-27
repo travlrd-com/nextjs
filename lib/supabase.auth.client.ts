@@ -1,7 +1,7 @@
 "use client";
 
-import { env } from "@/lib/env.client";
-import { supabaseForClientComponent } from "@/lib/supabase.client";
+import { env } from "@/lib/env.public";
+import { createSupabaseForClientComponent } from "@/lib/supabase.client";
 import * as Supabase from "@supabase/supabase-js";
 
 
@@ -19,7 +19,8 @@ export async function authenticateUsingGoogle(): Promise<never> {
   alert("Check the console log to fix this issue.");
   throw new Error("Redirect URL not configured on Supabase.");
 
-  return await supabaseForClientComponent.auth.signInWithOAuth({
+  const supabase = createSupabaseForClientComponent();
+  return await supabase.auth.signInWithOAuth({
     provider: "google",
     options: {
       redirectTo,
@@ -34,12 +35,16 @@ export async function authenticateUsingGoogle(): Promise<never> {
 
 
 export async function authenticateUsingPassword(credentials: Supabase.SignInWithPasswordCredentials) {
-  return await supabaseForClientComponent.auth.signInWithPassword(credentials);
+  const supabase = createSupabaseForClientComponent();
+
+  return await supabase.auth.signInWithPassword(credentials);
 }
 
 
 export async function signupUsingPassword(props: { full_name: string; email: string; password: string; }) {
-  return await supabaseForClientComponent.auth.signUp({
+  const supabase = createSupabaseForClientComponent();
+
+  return await supabase.auth.signUp({
     email: props.email,
     password: props.password,
     options: {

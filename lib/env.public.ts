@@ -1,8 +1,6 @@
-"use client";
-
 import { z } from "zod";
 
-// On the client Next.js bakes into the code the env variables starting with NEXT_
+// NOTE - On the client Next.js bakes into the code the env variables starting with NEXT_
 // by replacing the `process.env.NEXT_PUBLIC_ENV_VARIABLE` name in the code with the actual value
 
 export const env = {

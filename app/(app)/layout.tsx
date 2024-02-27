@@ -10,17 +10,20 @@ export default async function RootLayout({ children }: React.PropsWithChildren) 
       <body>
 
         {children}
-
-        <Script src={`https://www.googletagmanager.com/gtag/js?id=${env.NEXT_PUBLIC_GA_MEASUREMENT_ID}`} />
-        <Script id="google-analytics">
-          {`
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
- 
-          gtag('config', '${env.NEXT_PUBLIC_GA_MEASUREMENT_ID}');
-        `}
-        </Script>
+        {"NEXT_PUBLIC_GA_MEASUREMENT_ID" in env && (
+          <>
+            <Script src={`https://www.googletagmanager.com/gtag/js?id=${env.NEXT_PUBLIC_GA_MEASUREMENT_ID}`} />
+            <Script id="google-analytics">
+              {`
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+      
+                gtag('config', '${env.NEXT_PUBLIC_GA_MEASUREMENT_ID}');
+              `}
+            </Script>
+          </>
+        )}
 
       </body>
     </html>

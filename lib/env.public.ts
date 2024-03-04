@@ -1,3 +1,5 @@
+// NOTE - This file is not client-side, but public. The code importing it should be usable both from the server and the client. --- viktor.tar, 2024-03-04
+// "use client"
 import { z } from "zod";
 
 // NOTE - On the client Next.js bakes into the code the env variables starting with NEXT_

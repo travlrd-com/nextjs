@@ -63,6 +63,8 @@ export async function GET(request: Request) {
       console.error(result.error);
       return NextResponse.json({ error: { message: "We couldn't save the metadata returned by Google." } }, { status: 400 });
     }
+
+    break save_user_data;
   }
 
 

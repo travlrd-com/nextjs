@@ -22,6 +22,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "server-only": "^0.0.1",
+    "sharp": "^0.33.3",
     "stripe": "^15.3.0",
     "supabase": "^1.162.4",
     "use-debounce": "^10.0.0",

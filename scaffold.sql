@@ -43,21 +43,6 @@ create table
 
 
 create table
-  public.stripe_invoices (
-    stripe_id text not null,
-    created_at timestamp with time zone not null default now(),
-    user_id uuid not null,
-    period_start timestamp with time zone not null,
-    period_end timestamp with time zone not null,
-    stripe_customer_id text not null,
-    constraint stripe_invoices_pkey primary key (stripe_id),
-    constraint stripe_invoices_stripe_customer_id_fkey foreign key (stripe_customer_id) references stripe_customers ("stripe_id") on update cascade on delete cascade,
-    constraint stripe_invoices_user_id_fkey foreign key (user_id) references users (user_id) on update cascade on delete cascade
-  ) tablespace pg_default;
-
-
-
-create table
   public.stripe_prices (
     stripe_id text not null,
     created_at timestamp with time zone not null default now(),
@@ -130,13 +115,6 @@ USING ((user_id = auth.uid()));
 alter table public.stripe_customers enable row level security;
 
 CREATE POLICY "users can select their own row" ON "public"."stripe_customers"
-AS PERMISSIVE FOR SELECT
-TO authenticated
-USING ((user_id = auth.uid()));
-
-alter table public.stripe_invoices enable row level security;
-
-CREATE POLICY "users can select their rows" ON "public"."stripe_invoices"
 AS PERMISSIVE FOR SELECT
 TO authenticated
 USING ((user_id = auth.uid()));

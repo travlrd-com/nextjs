@@ -13,16 +13,6 @@ create table
 
 
 create table
-  public.users_private (
-    created_at timestamp with time zone not null default now(),
-    user_id uuid not null,
-    constraint users_secrets_pkey primary key (user_id),
-    constraint users_private_user_id_fkey foreign key (user_id) references users (user_id) on update cascade on delete cascade
-  ) tablespace pg_default;
-
-
-
-create table
   public.admins (
     user_id uuid not null,
     is_super boolean not null default false,
@@ -80,26 +70,13 @@ create table
 
 alter table public.users enable row level security;
 
-CREATE POLICY "admins can select the whole table" ON "public"."users"
-AS PERMISSIVE FOR SELECT
-TO authenticated
-USING ((EXISTS ( SELECT true FROM admins WHERE (admins.user_id = auth.uid()))));
-
-CREATE POLICY "admins can update the whole table" ON "public"."users"
+CREATE POLICY "admins can manage the whole table" ON "public"."users"
 AS PERMISSIVE FOR ALL
 TO authenticated
 USING ((EXISTS ( SELECT true FROM admins WHERE (admins.user_id = auth.uid()))))
 WITH CHECK ((EXISTS ( SELECT true FROM admins WHERE (admins.user_id = auth.uid()))));
 
 CREATE POLICY "Users can manage their own rows" ON "public"."users"
-AS PERMISSIVE FOR ALL
-TO authenticated
-USING ((user_id = auth.uid()))
-WITH CHECK ((user_id = auth.uid()));
-
-alter table public.users_private enable row level security;
-
-CREATE POLICY "Users manage their own rows" ON "public"."users_private"
 AS PERMISSIVE FOR ALL
 TO authenticated
 USING ((user_id = auth.uid()))
@@ -132,3 +109,13 @@ CREATE POLICY "users can select their rows" ON "public"."stripe_subscriptions"
 AS PERMISSIVE FOR SELECT
 TO authenticated
 USING ((user_id = auth.uid()));
+
+
+CREATE VIEW
+  public.users_public AS
+SELECT
+  user_id, 
+  full_name, 
+  profile_picture_src
+FROM
+  public.users;

@@ -28,6 +28,33 @@ export async function GET(request: Request) {
     userSessionData = response.data;
   }
 
+  // @replace_confirm_with_callback_for_email_password_signups
+  // IMPROVEMENT: we can use this from AwayPay --- viktor.tar, 2024-07-24
+  // try {
+  //   const response = await supabase.auth.exchangeCodeForSession(code);
+
+  //   if (response.error) {
+  //     console.error(response.error.message);
+
+  //     if (response.error.message.includes("both auth code and code verifier should be non-empty")) {
+  //       return NextResponse.redirect(`${env.NEXT_PUBLIC_ORIGIN}/login`);
+  //     }
+
+  //     return NextResponse.redirect(`${env.NEXT_PUBLIC_ORIGIN}/login?error=${response.error.message}`);
+  //   }
+  // } catch (err) {
+  //   if (!(err instanceof Error)) {
+  //     throw err;
+  //   }
+  //   console.error(err.message);
+
+  //   if (err.message.includes("both auth code and code verifier should be non-empty")) {
+  //     return NextResponse.redirect(`${env.NEXT_PUBLIC_ORIGIN}/login`);
+  //   }
+
+  //   throw err;
+  // }
+
 
   let userMetaData; {
     const result = z.object({

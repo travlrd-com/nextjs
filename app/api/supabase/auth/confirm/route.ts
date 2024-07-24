@@ -4,6 +4,12 @@ import { type EmailOtpType } from '@supabase/supabase-js';
 import { NextResponse } from 'next/server';
 
 
+// @replace_confirm_with_callback_for_email_password_signups
+// IMPROVEMENT: Gigi discovered in AwayPay, that the callback endpoint also works for email+password signups,
+// with the added benefit, that users are signed in immediately 
+// if they open the email on the same device. --- viktor.tar, 2024-07-24
+
+
 export async function GET(request: Request) {
   const supabase = createSupabaseForRouteHandler();
   const { searchParams } = new URL(request.url);
